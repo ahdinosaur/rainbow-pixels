@@ -1,4 +1,3 @@
-var through = require('through2')
 var range = require('lodash.range')
 var reduce = require('lodash.reduce')
 var inherits = require('inherits')
