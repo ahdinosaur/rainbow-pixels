@@ -2,6 +2,8 @@
 
 stream of scrolling rainbow `{ h, s, v }` [ndarray](https://npmjs.org/ndarray)s.
 
+stability: experimental. expect the unexpected.
+
 ## install
 
 with [npm](http://npmjs.org), do:
