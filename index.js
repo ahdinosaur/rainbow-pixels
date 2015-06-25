@@ -26,8 +26,20 @@ function RainbowPixels (opts) {
 }
 
 RainbowPixels.prototype._read = read
+RainbowPixels.prototype._readSample = readSample
 
-function read () {
+function read (numSamples) {
+
+  for (; numSamples > 0; numSamples--) {
+    var more = this.push(this._readSample())
+    if (more === false) {
+      return
+    }
+  }
+
+}
+
+function readSample () {
   var colors = range(this.size)
   .map(function (n) {
     return {
@@ -43,10 +55,10 @@ function read () {
     }
   }, this)
 
-  this.push({
+  this.offset += this.inc
+
+  return {
     data: colors,
     shape: this.shape
-  })
-
-  this.offset += this.inc
+  }
 }
