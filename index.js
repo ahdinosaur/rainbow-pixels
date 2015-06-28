@@ -21,6 +21,8 @@ function RainbowPixels (opts) {
   this.inc = defined(opts.inc, 5)
   this.size = reduce(this.shape, mult)
   this.offset = 0
+  this.saturation = defined(opts.saturation, 1)
+  this.value = defined(opts.value, 1)
 }
 
 RainbowPixels.prototype._read = read
@@ -48,8 +50,8 @@ function readSample () {
         )
         + this.offset
       , 360),
-      s: 1,
-      v: 1
+      s: this.saturation,
+      v: this.value
     }
   }, this)
 
