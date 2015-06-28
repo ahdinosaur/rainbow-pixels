@@ -18,7 +18,7 @@ npm i --save rainbow-pixels
 var rainbowPixels = require('rainbow-pixels');
 ```
 
-check out [tests](https://github.com/ahdinosaur/react-render-stream/blob/master/test.js)
+check out [tests](https://github.com/ahdinosaur/rainbow-pixels/blob/master/test.js)
 
 ## license
 
