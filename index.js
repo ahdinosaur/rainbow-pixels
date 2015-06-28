@@ -19,9 +19,7 @@ function RainbowPixels (opts) {
 
   this.shape = defined(opts.shape, [8, 8]) 
   this.inc = defined(opts.inc, 5)
-  this.size = reduce(this.shape, function (x, y) {
-    return x * y
-  })
+  this.size = reduce(this.shape, mult)
   this.offset = 0
 }
 
@@ -62,3 +60,5 @@ function readSample () {
     shape: this.shape
   }
 }
+
+function mult (x, y) { return x * y }
