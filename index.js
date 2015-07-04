@@ -4,6 +4,7 @@ var inherits = require('inherits')
 var Readable = require('readable-stream').Readable
 var defined = require('defined')
 var mod = require('mod-op')
+var Ndarray = require('ndarray')
 
 module.exports = RainbowPixels
 
@@ -57,10 +58,7 @@ function readSample () {
 
   this.offset += this.inc
 
-  return {
-    data: colors,
-    shape: this.shape
-  }
+  return Ndarray(colors, this.shape)
 }
 
 function mult (x, y) { return x * y }
