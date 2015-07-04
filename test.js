@@ -5,25 +5,25 @@ var rainbowPixels = require('./')
 
 test('streams a rainbow', function (t) {
 
-  var shape = [8, 1]
+  var shape = [8, 3]
   var colors = [[
-    { h: 0, s: 1, v: 1 },
-    { h: 45, s: 1, v: 1 },
-    { h: 90, s: 1, v: 1 },
-    { h: 135, s: 1, v: 1 },
-    { h: 180, s: 1, v: 1 },
-    { h: 225, s: 1, v: 1 },
-    { h: 270, s: 1, v: 1 },
-    { h: 315, s: 1, v: 1 }
+    0, 100, 100,
+    45, 100, 100,
+    90, 100, 100,
+    135, 100, 100,
+    180, 100, 100,
+    225, 100, 100,
+    270, 100, 100,
+    315, 100, 100
   ], [
-    { h: 10, s: 1, v: 1 },
-    { h: 55, s: 1, v: 1 },
-    { h: 100, s: 1, v: 1 },
-    { h: 145, s: 1, v: 1 },
-    { h: 190, s: 1, v: 1 },
-    { h: 235, s: 1, v: 1 },
-    { h: 280, s: 1, v: 1 },
-    { h: 325, s: 1, v: 1 }
+    10, 100, 100,
+    55, 100, 100,
+    100, 100, 100,
+    145, 100, 100,
+    190, 100, 100,
+    235, 100, 100,
+    280, 100, 100,
+    325, 100, 100
   ]].map(function (colors) {
     return {
       data: colors,
@@ -38,7 +38,7 @@ test('streams a rainbow', function (t) {
   })
   .pipe(through.obj(function (pixels, enc, cb) {
     var expected = colors.shift()
-    t.deepEqual(pixels.data, expected.data)
+    t.deepEqual([].slice.call(pixels.data), expected.data)
     t.deepEqual(pixels.shape, expected.shape)
 
     if (colors.length === 0) {

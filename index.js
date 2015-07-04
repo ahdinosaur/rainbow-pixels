@@ -18,43 +18,36 @@ function RainbowPixels (opts) {
     objectMode: true
   })
 
-  this.shape = defined(opts.shape, [8, 8]) 
+  this.shape = defined(opts.shape, [8, 8, 3]) 
   this.inc = defined(opts.inc, 5)
   this.size = reduce(this.shape, mult)
   this.offset = 0
-  this.saturation = defined(opts.saturation, 1)
-  this.value = defined(opts.value, 1)
+  this.saturation = defined(opts.saturation, 100)
+  this.value = defined(opts.value, 100)
 }
 
 RainbowPixels.prototype._read = read
 RainbowPixels.prototype._readSample = readSample
 
 function read (numSamples) {
-
-  for (; numSamples > 0; numSamples--) {
-    var more = this.push(this._readSample())
-    if (more === false) {
-      return
-    }
-  }
-
+  this.push(this._readSample())
 }
 
 function readSample () {
-  var colors = range(this.size)
-  .map(function (n) {
-    return {
-      h: mod(
+  var colors = new Float64Array(this.size)
+  var colorDepth = 3
+
+  for (var i = 0; i < colors.length; i += colorDepth) {
+    colors[i] = mod(
         (
-          (n / this.size)
+          (i / this.size)
           * 360
         )
         + this.offset
-      , 360),
-      s: this.saturation,
-      v: this.value
-    }
-  }, this)
+      , 360)
+    colors[i + 1] = this.saturation
+    colors[i + 2] = this.value
+  }
 
   this.offset += this.inc
 
