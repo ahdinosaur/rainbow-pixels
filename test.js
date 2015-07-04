@@ -37,7 +37,9 @@ test('streams a rainbow', function (t) {
     inc: inc
   })
   .pipe(through.obj(function (pixels, enc, cb) {
-    t.deepEqual(pixels, colors.shift())
+    var expected = colors.shift()
+    t.deepEqual(pixels.data, expected.data)
+    t.deepEqual(pixels.shape, expected.shape)
 
     if (colors.length === 0) {
       t.end()
