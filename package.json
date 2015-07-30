@@ -1,6 +1,6 @@
 {
   "name": "rainbow-pixels",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "stream of scrolling rainbow { h, s, v } ndarrays",
   "main": "index.js",
   "scripts": {
