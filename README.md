@@ -1,6 +1,6 @@
 # rainbow-pixels
 
-stream of scrolling rainbow `{ h, s, v }` [ndarray](https://npmjs.org/ndarray)s.
+stream of scrolling rainbow `{ h, s, l }` [ndarray](https://npmjs.org/ndarray)s.
 
 stability: experimental. expect the unexpected.
 

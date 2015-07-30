@@ -12,11 +12,11 @@
   },
   "keywords": [
     "color",
-    "hsv",
+    "hsl",
+    "ndpixels",
     "ndarray",
     "pixels",
-    "rainbow",
-    "rgb"
+    "rainbow"
   ],
   "author": "ahdinosaur",
   "license": "ISC",
