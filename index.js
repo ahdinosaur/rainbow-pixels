@@ -1,10 +1,8 @@
-var range = require('lodash.range')
-var reduce = require('lodash.reduce')
 var inherits = require('inherits')
 var Readable = require('readable-stream').Readable
 var defined = require('defined')
-var mod = require('mod-op')
 var Ndarray = require('ndarray')
+var rainbowGradient = require('rainbow-linear-gradient')
 
 module.exports = RainbowPixels
 
@@ -14,16 +12,21 @@ function RainbowPixels (opts) {
     return new RainbowPixels(opts)
   }
 
+  opts = opts || {}
+
   Readable.call(this, {
     objectMode: true
   })
 
-  this.shape = defined(opts.shape, [8, 8, 3]) 
+  this.shape = defined(opts.shape, [8, 8]) 
   this.inc = defined(opts.inc, 5)
-  this.size = reduce(this.shape, mult)
-  this.offset = 0
-  this.saturation = defined(opts.saturation, 100)
-  this.value = defined(opts.value, 100)
+  this.gradientOpts = {
+    start: 0,
+    step: opts.step,
+    length: size(this.shape),
+    saturation: opts.saturation,
+    lightness: opts.lightness
+  }
 }
 
 RainbowPixels.prototype._read = read
@@ -34,24 +37,19 @@ function read (numSamples) {
 }
 
 function readSample () {
-  var colors = new Float64Array(this.size)
-  var colorDepth = 3
+  var gradient = rainbowGradient(this.gradientOpts)
 
-  for (var i = 0; i < colors.length; i += colorDepth) {
-    colors[i] = mod(
-        (
-          (i / this.size)
-          * 360
-        )
-        + this.offset
-      , 360)
-    colors[i + 1] = this.saturation
-    colors[i + 2] = this.value
-  }
+  this.gradientOpts.start += this.inc
 
-  this.offset += this.inc
+  var pixels = Ndarray(
+    gradient.data,
+    this.shape.concat(gradient.shape.slice(gradient.shape.length - 1))
+  )
 
-  return Ndarray(colors, this.shape)
+  pixels.format = gradient.format
+
+  return pixels
 }
 
-function mult (x, y) { return x * y }
+function size (shape) { return shape.reduce(mult) }
+function mult (a, b) { return a * b }
