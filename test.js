@@ -1,5 +1,7 @@
 var test = require('tape')
-var through = require('through2')
+var pull = require('pull-stream')
+var map = require('pull-stream/throughs').map
+var drain = require('pull-stream/sinks').drain
 
 var rainbowPixels = require('./')
 
@@ -32,19 +34,20 @@ test('streams a rainbow', function (t) {
   })
   var inc = 10
 
-  rainbowPixels({
-    shape: shape,
-    inc: inc
-  })
-  .pipe(through.obj(function (pixels, enc, cb) {
-    var expected = colors.shift()
-    t.deepEqual([].slice.call(pixels.data), expected.data)
-    t.deepEqual(pixels.shape, expected.shape.concat([3]))
-
-    if (colors.length === 0) {
+  pull(
+    rainbowPixels({
+      shape: shape,
+      inc: inc
+    }),
+    map(function (pixels) {
+      var expected = colors.shift()
+      t.deepEqual([].slice.call(pixels.data), expected.data)
+      t.deepEqual(pixels.shape, expected.shape.concat([3]))
+    }),
+    drain(function ()  {
+      return colors.length !== 0
+    }, function () {
       t.end()
-    } else {
-      cb()
-    }
-  }))
+    })
+  )
 })
