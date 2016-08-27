@@ -35,10 +35,10 @@ test('streams a rainbow', function (t) {
   var inc = 10
 
   pull(
-    rainbowPixels({
+    pull.infinite(rainbowPixels({
       shape: shape,
       inc: inc
-    }),
+    })),
     map(function (pixels) {
       var expected = colors.shift()
       t.deepEqual([].slice.call(pixels.data), expected.data)
